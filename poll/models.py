@@ -65,7 +65,7 @@ class Vote(models.Model):
     item = models.ForeignKey(Item, verbose_name=_('voted item'))
     ip = models.IPAddressField(verbose_name=_('user\'s IP'))
     user = models.ForeignKey(User, blank=True, null=True,
-                             verbose_name=_('user'))
+                             verbose_name=_('user'), related_name='uservote')
     datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
