@@ -8,7 +8,7 @@ class PollItemInline(admin.TabularInline):
     max_num = 15
 
 class PollAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'vote_count', 'is_published')
+    list_display = ('title', 'publication_date', 'vote_count')
     inlines = [PollItemInline,]
 
 admin.site.register(Poll, PollAdmin)

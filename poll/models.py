@@ -16,13 +16,19 @@ else:
 
 class PublishedManager(Manager):
     def get_query_set(self):
-        return super(PublishedManager, self).get_query_set().filter(is_published=True)
+        return super(PublishedManager, self).get_query_set().filter(status=1)
 
 
 class Poll(models.Model):
+    STATUS_CHOICES = (
+        (0, _('draft')),
+        (1, _('published')),
+        (2, _('archival')),
+    )
     title = models.CharField(max_length=250, verbose_name=_('question'))
     date = models.DateField(verbose_name=_('date'), default=datetime.date.today)
-    is_published = models.BooleanField(default=True, verbose_name=_('is published'))
+    publication_date = models.DateField(verbose_name=_('publication date'), default=datetime.date.today)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
 
     objects = models.Manager()
     published = PublishedManager()
