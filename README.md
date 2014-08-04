@@ -9,7 +9,7 @@ pip install django-simple-poll
 
 Install latest from github:
 ```
-pip install -e git+https://github.com/applecat/django-simple-poll.git#egg=django-simple-poll
+pip install -e git+https://github.com/ozdan/django-simple-poll.git#egg=django-simple-poll
 ```
 
 Usage
@@ -43,4 +43,4 @@ Usage
 	```
 	
 -----
-Based on https://bitbucket.org/RafRaf/django-poll-system
+Based on https://github.com/pieterhamman/django-simple-poll
