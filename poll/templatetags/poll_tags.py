@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.conf import settings
-from django.db.models import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from poll.models import Poll, Vote
 from poll import views
 register = template.Library()
@@ -12,7 +12,7 @@ def poll(context):
 
     try:
         poll = Poll.published.latest("date")
-    except ObjectDoesNotExists:
+    except ObjectDoesNotExist:
         return ''
     
     if poll.get_cookie_name() not in request.COOKIES\
