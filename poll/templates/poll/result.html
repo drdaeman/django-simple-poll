@@ -13,6 +13,8 @@
 		</li> 
 		{% endfor %}
 	</ul>
-	<p>{% trans "Total votes" %}: <b>{{ poll.get_vote_count }}</b></p><br>
+	<p>{% trans "Total votes" %}: <b>{{ poll.get_vote_count }}</b></p>
+    <p><a href="{% url 'all_results' %}">{% trans "All results" %}</a></p>
+    <br>
 </div>
 {% endblock %}

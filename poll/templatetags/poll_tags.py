@@ -2,7 +2,7 @@
 from django import template
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
-from poll.models import Poll, Vote
+from poll.models import Poll, Vote, Item
 from poll import views
 register = template.Library()
 
@@ -27,3 +27,7 @@ def percentage(poll, item):
     poll_vote_count = poll.get_vote_count()
     if poll_vote_count > 0:
         return float(item.get_vote_count()) / float(poll_vote_count) * 100
+
+@register.filter
+def poll_items(poll_pk):
+    return Item.objects.filter(poll__pk=poll_pk)

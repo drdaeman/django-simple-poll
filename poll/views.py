@@ -70,3 +70,10 @@ def result(request, poll_pk):
         'poll': poll,
         'items': items,
     })
+
+
+def all_results(request):
+    polls = Poll.objects.filter(status=1)
+    return render_to_response("poll/all_results.html", {
+        'polls': polls,
+    })
