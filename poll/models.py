@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from django.db import models
-from django.utils.translation import gettext as _
-from django.db.models.manager import Manager
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.manager import Manager
+from django.utils.translation import gettext as _
 
 try:
     from django.contrib.auth import get_user_model
@@ -47,6 +47,11 @@ class Poll(models.Model):
 
     def get_cookie_name(self):
         return str('poll_%s' % (self.pk))
+
+    def save(self, *args, **kwargs):
+        if self.status == 1:
+            self.publication_date = datetime.date.today()
+        super(Poll, self).save(*args, **kwargs)
 
 
 class Item(models.Model):
