@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from django import template
 from django.conf import settings
-from poll.models import *
+from django.db.models import ObjectDoesNotExist
+from poll.models import Poll, Vote
 from poll import views
 register = template.Library()
 
@@ -12,10 +12,12 @@ def poll(context):
 
     try:
         poll = Poll.published.latest("date")
-    except:
+    except ObjectDoesNotExists:
         return ''
     
-    if poll.get_cookie_name() not in request.COOKIES:
+    if poll.get_cookie_name() not in request.COOKIES\
+            and not Vote.objects.filter(ip=request.META['REMOTE_ADDR'], poll=poll)\
+                    .count():
         return views.poll(context['request'], poll.id).content
     else:
         return views.result(context['request'], poll.id).content

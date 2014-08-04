@@ -4,15 +4,17 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, loader
 from django.db import transaction
+from django.db.models import ObjectDoesNotExist
 from django.utils import simplejson
 from utils import set_cookie
-from poll.models import *
+from poll.models import Item, Poll, Vote
+
 
 def vote(request, poll_pk):
     if request.is_ajax():
         try:
             poll = Poll.objects.get(pk=poll_pk)
-        except:
+        except ObjectDoesNotExist:
             return HttpResponse('Wrong parameters', status=400)
 
         item_pk = request.GET.get("item", False)
@@ -21,7 +23,7 @@ def vote(request, poll_pk):
         
         try:
             item = Item.objects.get(pk=item_pk)        
-        except:
+        except ObjectDoesNotExist:
             return HttpResponse('Wrong parameters', status=400)
                     
         if request.user.is_authenticated():
@@ -46,7 +48,7 @@ def vote(request, poll_pk):
 def poll(request, poll_pk):
     try:
         poll = Poll.objects.get(pk=poll_pk)
-    except:
+    except ObjectDoesNotExist:
         return HttpResponse('Wrong parameters', status=400)
 
     items = Item.objects.filter(poll=poll)
@@ -60,7 +62,7 @@ def poll(request, poll_pk):
 def result(request, poll_pk):
     try:
         poll = Poll.objects.get(pk=poll_pk)
-    except:
+    except ObjectDoesNotExist:
         return HttpResponse('Wrong parameters', status=400)
     
     items = Item.objects.filter(poll=poll)

@@ -18,6 +18,7 @@ class PublishedManager(Manager):
     def get_query_set(self):
         return super(PublishedManager, self).get_query_set().filter(is_published=True)
 
+
 class Poll(models.Model):
     title = models.CharField(max_length=250, verbose_name=_('question'))
     date = models.DateField(verbose_name=_('date'), default=datetime.date.today)
