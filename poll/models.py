@@ -28,7 +28,7 @@ class Poll(models.Model):
     )
     title = models.CharField(max_length=250, verbose_name=_('question'))
     date = models.DateField(verbose_name=_('date'), default=datetime.date.today)
-    publication_date = models.DateTimeField(verbose_name=_('Publication date'), default=datetime.date.today)
+    publication_date = models.DateTimeField(verbose_name=_('Publication date'), default=timezone.localtime(timezone.now()))
     status = models.IntegerField(verbose_name=_('Status'), choices=STATUS_CHOICES, default=0)
 
     objects = models.Manager()
