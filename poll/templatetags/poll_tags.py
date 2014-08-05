@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import logging
 from django import template
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from poll.models import Poll, Vote, Item
 from poll import views
 register = template.Library()
+logger = logging.getLogger('my_logger')
 
 @register.simple_tag(takes_context=True)
 def poll(context):
@@ -14,7 +16,9 @@ def poll(context):
         poll = Poll.published.latest("date")
     except ObjectDoesNotExist:
         return ''
-    
+
+    logger.debug('REMOTE_ADDR ' + request.META['REMOTE_ADDR'])
+    logger.debug('HTTP_HOST ' + request.META['HTTP_HOST'])
     if poll.get_cookie_name() not in request.COOKIES\
             and not Vote.objects.filter(ip=request.META['REMOTE_ADDR'], poll=poll)\
                     .count():
