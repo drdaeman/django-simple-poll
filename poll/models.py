@@ -27,7 +27,7 @@ class Poll(models.Model):
     )
     title = models.CharField(max_length=250, verbose_name=_('question'))
     date = models.DateField(verbose_name=_('date'), default=datetime.date.today)
-    publication_date = models.DateField(verbose_name=_('Publication date'), default=datetime.date.today)
+    publication_date = models.DateTimeField(verbose_name=_('Publication date'), default=datetime.date.today)
     status = models.IntegerField(verbose_name=_('Status'), choices=STATUS_CHOICES, default=0)
 
     objects = models.Manager()
@@ -49,7 +49,14 @@ class Poll(models.Model):
         return str('poll_%s' % (self.pk))
 
     def save(self, *args, **kwargs):
-        if self.status == 1:
+        status_changed = False
+        if not self.pk: # new object
+            status_changed = True
+        else:
+            orig_obj = Poll.objects.get(pk=self.pk)
+            if orig_obj.status != self.status:
+                status_changed = True
+        if status_changed and self.status == 1:
             self.publication_date = datetime.date.today()
         super(Poll, self).save(*args, **kwargs)
 

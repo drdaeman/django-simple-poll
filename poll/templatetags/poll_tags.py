@@ -13,14 +13,17 @@ def poll(context):
     request = context['request']
 
     try:
-        poll = Poll.published.latest("date")
+        poll = Poll.published.latest("publication_date")
     except ObjectDoesNotExist:
         return ''
 
-    logger.debug('REMOTE_ADDR ' + request.META['REMOTE_ADDR'])
-    logger.debug('HTTP_HOST ' + request.META['HTTP_HOST'])
+    if 'HTTP_X_REAL_IP' in request.META:
+        remote_addr = request.META['HTTP_X_REAL_IP']
+    else:
+        remote_addr = request.META['REMOTE_ADDR']
+
     if poll.get_cookie_name() not in request.COOKIES\
-            and not Vote.objects.filter(ip=request.META['REMOTE_ADDR'], poll=poll)\
+            and not Vote.objects.filter(ip=remote_addr, poll=poll)\
                     .count():
         return views.poll(context['request'], poll.id).content
     else:

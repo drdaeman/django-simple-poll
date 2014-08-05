@@ -29,10 +29,15 @@ def vote(request, poll_pk):
             user = request.user
         else:
             user = None
-        
+
+        if 'HTTP_X_REAL_IP' in request.META:
+            remote_addr = request.META['HTTP_X_REAL_IP']
+        else:
+            remote_addr = request.META['REMOTE_ADDR']
+
         vote = Vote.objects.create(
             poll=poll,
-            ip=request.META['REMOTE_ADDR'],
+            ip=remote_addr,
             user=user,
             item=item,
         )

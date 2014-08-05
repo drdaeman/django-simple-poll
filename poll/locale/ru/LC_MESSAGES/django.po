@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-04 13:58+0400\n"
-"PO-Revision-Date: 2014-08-04 14:01+0300\n"
+"POT-Creation-Date: 2014-08-05 13:39+0400\n"
+"PO-Revision-Date: 2014-08-05 13:40+0300\n"
 "Last-Translator: ozdan <ozdan@inbox.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -46,7 +46,7 @@ msgid "Status"
 msgstr "Статус опроса"
 
 #: models.py:38
-#: models.py:71
+#: models.py:83
 #: templates/poll/base.html:8
 msgid "poll"
 msgstr "опрос"
@@ -55,41 +55,46 @@ msgstr "опрос"
 msgid "polls"
 msgstr "опросы"
 
-#: models.py:54
+#: models.py:66
 msgid "value"
 msgstr "значение"
 
-#: models.py:55
+#: models.py:67
 msgid "position"
 msgstr "позиция"
 
-#: models.py:58
+#: models.py:70
 msgid "answer"
 msgstr "ответ"
 
-#: models.py:59
+#: models.py:71
 msgid "answers"
 msgstr "ответы"
 
-#: models.py:72
+#: models.py:84
 msgid "voted item"
 msgstr ""
 
-#: models.py:73
+#: models.py:85
 msgid "user's IP"
 msgstr "IP пользователя"
 
-#: models.py:75
+#: models.py:87
 msgid "user"
 msgstr "пользователь"
 
-#: models.py:79
+#: models.py:91
 msgid "vote"
 msgstr "голос"
 
-#: models.py:80
+#: models.py:92
 msgid "votes"
 msgstr "голоса"
+
+#: templates/poll/all_results.html:17
+#: templates/poll/result.html:16
+msgid "Total votes"
+msgstr "Всего голосов"
 
 #: templates/poll/poll.html:18
 msgid "Please, select an answer"
@@ -99,7 +104,7 @@ msgstr "Пожалуйста, выберите вариант ответа"
 msgid "Vote"
 msgstr "Голосовать"
 
-#: templates/poll/result.html:16
-msgid "Total votes"
-msgstr "Всего голосов"
+#: templates/poll/result.html:17
+msgid "All results"
+msgstr "Все результаты"
 
