@@ -4,6 +4,7 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.manager import Manager
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
 try:
@@ -57,7 +58,7 @@ class Poll(models.Model):
             if orig_obj.status != self.status:
                 status_changed = True
         if status_changed and self.status == 1:
-            self.publication_date = datetime.date.today()
+            self.publication_date = timezone.localtime(timezone.now())
         super(Poll, self).save(*args, **kwargs)
 
 
