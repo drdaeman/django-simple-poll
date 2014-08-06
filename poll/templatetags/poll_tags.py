@@ -23,8 +23,9 @@ def poll(context):
         remote_addr = request.META['REMOTE_ADDR']
 
     if poll.get_cookie_name() not in request.COOKIES\
-            and not Vote.objects.filter(ip=remote_addr, poll=poll)\
-                    .count():
+            or (request.user.is_authenticated()
+                and not Vote.objects.filter(ip=remote_addr, user=request.user).count()
+                ):
         return views.poll(context['request'], poll.id).content
     else:
         return views.result(context['request'], poll.id).content
