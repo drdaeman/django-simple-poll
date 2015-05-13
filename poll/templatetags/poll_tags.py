@@ -15,7 +15,7 @@ def poll(context):
     except:
         return ''
     
-    if poll.get_cookie_name() not in request.COOKIES:
+    if not poll.vote_set.filter(user=request.user):
         return views.poll(context['request'], poll.id).content
     else:
         return views.result(context['request'], poll.id).content
