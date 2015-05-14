@@ -77,3 +77,9 @@ class Vote(models.Model):
             username_field = getattr(User, 'USERNAME_FIELD', 'username')
             return u'%s' % getattr(self.user, username_field, '')
         return self.ip
+
+    def first_name(self):
+        return self.user.first_name
+
+    def last_name(self):
+        return self.user.last_name
