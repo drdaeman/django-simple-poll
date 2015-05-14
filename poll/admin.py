@@ -6,6 +6,7 @@ class PollItemInline(admin.TabularInline):
     model = Item
     extra = 0
     max_num = 15
+    readonly_fields = ['vote_count']
 
 class PollAdmin(admin.ModelAdmin):
     list_display = ('title', 'date', 'vote_count', 'is_published')
