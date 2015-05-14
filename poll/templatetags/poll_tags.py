@@ -15,10 +15,11 @@ def poll(context):
     except:
         return ''
     
-    if not poll.vote_set.filter(user=request.user):
-        return views.poll(context['request'], poll.id).content
-    else:
-        return views.result(context['request'], poll.id).content
+    if request.user.is_authenticated():
+        if poll.vote_set.filter(user=request.user):
+            return views.result(context['request'], poll.id).content
+    return views.poll(context['request'], poll.id).content
+
     
 @register.simple_tag                                                                                                                         
 def percentage(poll, item):
