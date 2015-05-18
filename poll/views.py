@@ -29,11 +29,13 @@ def vote(request, poll_pk):
         else:
             user = None
         
-        vote = Vote.objects.create(
+        vote, created = Vote.objects.get_or_create(
             poll=poll,
-            ip=request.META['REMOTE_ADDR'],
             user=user,
-            item=item,
+            defaults=dict(
+                ip=request.META['REMOTE_ADDR'],
+                item=item,
+                )
         )
         
         response = HttpResponse(status=200)
@@ -68,4 +70,4 @@ def result(request, poll_pk):
     return render_to_response("poll/result.html", {
         'poll': poll,
         'items': items,
-    })
+    }, context_instance=RequestContext(request))
