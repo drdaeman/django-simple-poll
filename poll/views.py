@@ -64,8 +64,10 @@ def result(request, poll_pk):
         return HttpResponse("Wrong parameters", status=400)
 
     items = Item.objects.filter(poll=poll)
+    bare = request.GET.get("bare", None) is not None
+    template_name = "poll/result_bare.html" if bare else "poll/result.html"
 
-    return render_to_response("poll/result.html", {
+    return render_to_response(template_name, {
         "poll": poll,
         "items": items,
     }, context_instance=RequestContext(request))
