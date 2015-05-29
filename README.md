@@ -1,16 +1,15 @@
-Simple Django poll application.
+Simple Django poll application
+==============================
 
 Installation
 ------------
 
-```
-pip install django-simple-poll
-```
+This is a fork, that incorporates changes by myself and other various users.
+First of all, you should check the original project to see if it will fit your needs.
 
-Install latest from github:
-```
-pip install -e git+https://github.com/ozdan/django-simple-poll.git#egg=django-simple-poll
-```
+If you want to use this one, you can install it from GitHub:
+
+    pip install -e git+https://github.com/drdaeman/django-simple-poll.git#egg=django-simple-poll
 
 Usage
 -----
@@ -24,7 +23,7 @@ Usage
 	)
 	```
 
-2. Add the poll's url to your urls.py.
+2. Add the poll's URL to your `urls.py`.
 
 	```
 	urlpatterns = patterns('',
@@ -33,7 +32,13 @@ Usage
 	)
 	```
 
-3. Run python manage.py syncdb or python manage.py migrate poll if you using South.
+3. Run `python manage.py syncdb` (or `python manage.py migrate poll` if you use South).
+
+   Please beware that if you're using custom user model (with `AUTH_USER_MODEL` setting),
+   while South migrations will correctly honor that, changing this setting at a later time
+   may cause all sort of problems.
+   
+   There is no support for Django 1.7+ built-in database migrations for now. Sorry about this.
 
 4. Add this tags in your template file to show poll:
 
@@ -43,4 +48,4 @@ Usage
 	```
 	
 -----
-Based on https://github.com/pieterhamman/django-simple-poll
+Based on https://github.com/applecat/django-simple-poll and its derivatives.
