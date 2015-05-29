@@ -30,16 +30,13 @@ def vote(request, poll_pk):
         else:
             user = None
 
-        if 'HTTP_X_REAL_IP' in request.META:
-            remote_addr = request.META['HTTP_X_REAL_IP']
-        else:
-            remote_addr = request.META['REMOTE_ADDR']
-
-        vote = Vote.objects.create(
+        vote, created = Vote.objects.get_or_create(
             poll=poll,
-            ip=remote_addr,
             user=user,
-            item=item,
+            defaults=dict(
+                ip=request.META['REMOTE_ADDR'],
+                item=item,
+                )
         )
         
         response = HttpResponse(status=200)
@@ -74,11 +71,11 @@ def result(request, poll_pk):
     return render_to_response("poll/result.html", {
         'poll': poll,
         'items': items,
-    })
+    }, context_instance=RequestContext(request))
 
 
 def all_results(request):
     polls = Poll.objects.filter(status=1)
     return render_to_response("poll/all_results.html", {
         'polls': polls,
-    })
+    }, context_instance=RequestContext(request))

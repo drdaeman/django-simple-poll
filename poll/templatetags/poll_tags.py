@@ -16,20 +16,13 @@ def poll(context):
         poll = Poll.published.latest("publication_date")
     except ObjectDoesNotExist:
         return ''
-
-    if 'HTTP_X_REAL_IP' in request.META:
-        remote_addr = request.META['HTTP_X_REAL_IP']
-    else:
-        remote_addr = request.META['REMOTE_ADDR']
-
-    if poll.get_cookie_name() not in request.COOKIES\
-            or (request.user.is_authenticated()
-                and not Vote.objects.filter(ip=remote_addr, user=request.user).count()
-                ):
-        return views.poll(context['request'], poll.id).content
-    else:
-        return views.result(context['request'], poll.id).content
     
+    if request.user.is_authenticated():
+        if poll.vote_set.filter(user=request.user):
+            return views.result(context['request'], poll.id).content
+    return views.poll(context['request'], poll.id).content
+
+
 @register.simple_tag                                                                                                                         
 def percentage(poll, item):
     poll_vote_count = poll.get_vote_count()

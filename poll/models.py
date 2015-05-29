@@ -95,5 +95,11 @@ class Vote(models.Model):
     def __unicode__(self):
         if isinstance(self.user, User):
             username_field = getattr(User, 'USERNAME_FIELD', 'username')
-            return getattr(User, username_field, '')
+            return u'%s' % getattr(self.user, username_field, '')
         return self.ip
+
+    def first_name(self):
+        return self.user.first_name
+
+    def last_name(self):
+        return self.user.last_name
