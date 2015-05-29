@@ -27,10 +27,10 @@ class Poll(models.Model):
         (1, _(u"published")),
         (2, _(u"archival")),
     )
+    user = models.ForeignKey(AUTH_USER_MODEL, blank=True, null=True, verbose_name=_(u"author"))
     title = models.CharField(max_length=250, verbose_name=_(u"question"))
     date = models.DateField(verbose_name=_(u"date"), default=datetime.date.today)
-    publication_date = models.DateTimeField(verbose_name=_(u"publication date"),
-                                            default=timezone.localtime(timezone.now()))
+    publication_date = models.DateTimeField(verbose_name=_(u"publication date"), default=timezone.now)
     status = models.IntegerField(verbose_name=_(u"status"), choices=STATUS_CHOICES, default=0)
 
     objects = models.Manager()
