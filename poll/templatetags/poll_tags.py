@@ -8,12 +8,18 @@ from .. import views
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def poll(context):
-    request = context['request']
+@register.simple_tag(name="poll", takes_context=True)
+def poll_tag(context, poll_id=None, user=False):
+    request = context["request"]
 
     try:
-        poll = Poll.published.latest("publication_date")
+        poll = Poll.published
+        if user is not False:
+            poll = poll.filter(user=user)
+        if poll_id is not None:
+            poll = poll.get(id=poll_id)
+        else:
+            poll = poll.latest("publication_date")
     except ObjectDoesNotExist:
         return ""
 

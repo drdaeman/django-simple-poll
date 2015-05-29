@@ -44,8 +44,10 @@ Usage
 
 	```
 	{% load poll_tags %}
-	{% poll %}
+	{% poll %}                  {# will show the latest poll among all known ones #}
+	{% poll user=user %}        {# will show the latest poll from the specific user #}
+	{% poll poll_id=poll_id #}  {# will show the specific poll #}
 	```
-	
+
 -----
 Based on https://github.com/applecat/django-simple-poll and its derivatives.
