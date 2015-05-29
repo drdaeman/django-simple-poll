@@ -6,13 +6,16 @@ from django.db import models
 from django.db.models.manager import Manager
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.conf import settings
 
+AUTH_USER_MODEL = getattr(settings, "AUTH_USER_MODEL", "auth.User")
 try:
     from django.contrib.auth import get_user_model
+    get_username_field = lambda: get_user_model().USERNAME_FIELD
 except ImportError:
     from django.contrib.auth.models import User
-else:
-    User = get_user_model()
+    get_user_model = lambda: User
+    get_username_field = lambda: "username"
 
 
 class PublishedManager(Manager):
@@ -84,7 +87,7 @@ class Vote(models.Model):
     poll = models.ForeignKey(Poll, verbose_name=_('poll'))
     item = models.ForeignKey(Item, verbose_name=_('voted item'))
     ip = models.IPAddressField(verbose_name=_('user\'s IP'))
-    user = models.ForeignKey(User, blank=True, null=True,
+    user = models.ForeignKey(AUTH_USER_MODEL, blank=True, null=True,
                              verbose_name=_('user'), related_name='uservote')
     datetime = models.DateTimeField(auto_now_add=True)
 
@@ -93,9 +96,8 @@ class Vote(models.Model):
         verbose_name_plural = _('votes')
 
     def __unicode__(self):
-        if isinstance(self.user, User):
-            username_field = getattr(User, 'USERNAME_FIELD', 'username')
-            return u'%s' % getattr(self.user, username_field, '')
+        if self.user is not None:
+            return u'%s' % getattr(self.user, get_username_field(), '')
         return self.ip
 
     def first_name(self):
