@@ -24,4 +24,5 @@ setup(
         'Framework :: Django',
     ],
     include_package_data=True,
+    requires=['django']
 )
