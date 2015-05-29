@@ -19,9 +19,9 @@ admin.site.register(Poll, PollAdmin)
 
 
 class VoteAdmin(admin.ModelAdmin):
-    list_display = ("item", "poll", "user", "first_name", "last_name", "ip", "datetime")
+    list_display = ("item", "poll", "user", "ip", "datetime")
     list_filter = ("poll", "datetime")
-    search_fields = ["poll__title", "item__value", "user__first_name", "user__last_name", "user__email"]
+    search_fields = ["poll__title", "item__value"]
 
 
 admin.site.register(Vote, VoteAdmin)
