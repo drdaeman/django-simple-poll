@@ -24,7 +24,7 @@ def get_version(version=None):
     if version[3] == "alpha" and version[4] == 0:
         from django.utils.version import get_git_changeset
 
-        git_changeset = get_git_changeset()[4:]
+        git_changeset = get_git_changeset()
         if git_changeset:
             sub = ".dev%s" % git_changeset
 
