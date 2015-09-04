@@ -9,7 +9,7 @@ register = template.Library()
 
 
 @register.simple_tag(name="poll", takes_context=True)
-def poll_tag(context, poll_id=None, user=False):
+def poll_tag(context, poll_id=None, user=False, force_results=False):
     request = context["request"]
 
     try:
@@ -23,9 +23,8 @@ def poll_tag(context, poll_id=None, user=False):
     except ObjectDoesNotExist:
         return ""
 
-    if request.user.is_authenticated():
-        if poll.vote_set.filter(user=request.user):
-            return views.result(context["request"], poll.id).content
+    if force_results or (request.user.is_authenticated() and poll.vote_set.filter(user=request.user)):
+        return views.result(context["request"], poll.id).content
     return views.poll(context["request"], poll.id).content
 
 
