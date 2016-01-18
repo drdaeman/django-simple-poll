@@ -22,11 +22,15 @@ def get_version(version=None):
 
     sub = ""
     if version[3] == "alpha" and version[4] == 0:
-        from django.utils.version import get_git_changeset
+        try:
+            from django.utils.version import get_git_changeset
+        except ImportError:
+            get_git_changeset = None
 
-        git_changeset = get_git_changeset()
-        if git_changeset:
-            sub = ".dev%s" % git_changeset
+        if get_git_changeset is not None:
+            git_changeset = get_git_changeset()
+            if git_changeset:
+                sub = ".dev%s" % git_changeset
 
     elif version[3] != "final":
         mapping = {"alpha": "a", "beta": "b", "rc": "c"}
